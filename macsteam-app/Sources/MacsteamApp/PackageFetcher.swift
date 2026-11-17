@@ -13,12 +13,11 @@ enum PackageFetcher {
 
     static func stageFromValve(progress: (@Sendable (String) -> Void)? = nil) throws {
         let fm = FileManager.default
-        let manifestURL = localManifest()
-        guard let manifestURL,
-              let text = try? String(contentsOf: manifestURL, encoding: .utf8) else {
-            throw StepFailure(step: "Read manifest",
-                          detail: "No steam_client_osx manifest in the package dir. "
-                                + "Open Steam once so it unbundles, then try again.")
+        // Fresh install: Steam hasn't written a manifest yet, so take Valve's current one,
+        // but only if it's the build macSteam supports.
+        let manifestURL = try localManifest() ?? fetchSupportedManifest()
+        guard let text = try? String(contentsOf: manifestURL, encoding: .utf8) else {
+            throw StepFailure(step: "Read manifest", detail: "Couldn't read \(manifestURL.lastPathComponent).")
         }
 
         let components = parse(text)
@@ -40,6 +39,25 @@ enum PackageFetcher {
     }
 
     // MARK: - Manifest
+
+    private static func fetchSupportedManifest() throws -> URL {
+        guard let remote = URL(string: "\(cdnBase)/steam_client_osx"),
+              let data = try? Data(contentsOf: remote),
+              let text = String(data: data, encoding: .utf8) else {
+            throw StepFailure(step: "Fetch manifest", detail: "Couldn't download the client manifest from Valve.")
+        }
+        // Valve only serves its latest build; older manifests are gone.
+        guard let version = MacCrab.parseVersion(text), version == MacCrab.supportedVersion else {
+            throw StepFailure(step: "Fetch manifest",
+                          detail: "Valve's current client is \(MacCrab.parseVersion(text) ?? "unknown"), "
+                                + "but macSteam supports \(MacCrab.supportedVersion). "
+                                + "Install stopped so Steam isn't left on an unsupported build.")
+        }
+        try Paths.ensureDir(Paths.packageDir)
+        let dest = Paths.packageDir.appendingPathComponent("steam_client_osx.manifest")
+        try data.write(to: dest, options: .atomic)
+        return dest
+    }
 
     private static func localManifest() -> URL? {
         let fm = FileManager.default

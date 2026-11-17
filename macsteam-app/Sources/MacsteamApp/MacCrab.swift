@@ -3,7 +3,7 @@ import Foundation
 
 enum MacCrab {
 
-    static let supportedVersion = "1788652215"
+    static let supportedVersion = "1794536281"
 
     static let localServerURL = "http://localhost:1666"
 
@@ -47,7 +47,7 @@ enum MacCrab {
         return nil
     }
 
-    private static func parseVersion(_ text: String) -> String? {
+    static func parseVersion(_ text: String) -> String? {
         for line in text.split(separator: "\n") {
             let trimmed = line.trimmingCharacters(in: .whitespaces)
             guard trimmed.hasPrefix("\"version\"") else { continue }

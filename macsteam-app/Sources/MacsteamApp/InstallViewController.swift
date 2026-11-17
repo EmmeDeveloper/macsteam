@@ -193,7 +193,10 @@ final class InstallViewController: NSViewController {
         switch MacCrab.status() {
         case .unsupported(let version):
             promptVersionFix(currentBuild: version, dylib: dylib)
-        default:
+        case .steamMissing, .unknown:
+            // No client installed yet: pin now, before Steam's first launch downloads whatever is latest.
+            runInstall(dylib: dylib, pinFirst: true)
+        case .supported:
             runInstall(dylib: dylib, pinFirst: false)
         }
     }
