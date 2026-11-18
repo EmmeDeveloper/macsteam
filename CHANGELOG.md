@@ -2,7 +2,7 @@
 
 All notable changes to this fork. Releases: https://github.com/EmmeDeveloper/macsteam/releases
 
-## Unreleased
+## 0.8.4
 
 - HTTPS manifest request-code provider with strict HTTP and uint64 response validation (#9; upstream PR #3 by ElfariaKensington).
 - Managed launches refresh the cached source ownership ticket, preserving native responses and restoring IPC packets (#10; upstream PR #6 by ElfariaKensington).
