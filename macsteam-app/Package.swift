@@ -1,21 +1,17 @@
 // swift-tools-version: 6.0
-import Foundation
 import PackageDescription
 
-var targets: [Target] = [
+let targets: [Target] = [
     .executableTarget(
         name: "MacsteamApp",
         path: "Sources/MacsteamApp"
-    )
-]
-
-if FileManager.default.fileExists(atPath: "Tests/MacsteamAppTests") {
-    targets.append(.testTarget(
+    ),
+    .testTarget(
         name: "MacsteamAppTests",
         dependencies: ["MacsteamApp"],
         path: "Tests/MacsteamAppTests"
-    ))
-}
+    ),
+]
 
 let package = Package(
     name: "MacsteamApp",
