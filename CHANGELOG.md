@@ -4,6 +4,10 @@ All notable changes to this fork. Releases: https://github.com/EmmeDeveloper/mac
 
 ## Unreleased
 
+- Simplified Chinese localization (upstream PR #7 by KameraZhao).
+- Warning when an imported .lua has no depot keys.
+- Settings: Copy Diagnostics for bug reports.
+- Unit tests and `swift test` in CI.
 - Removed Sparkle auto-update; the app menu and the sidebar link open the GitHub releases page.
 - Sidebar shows the app version and the supported Steam build.
 
