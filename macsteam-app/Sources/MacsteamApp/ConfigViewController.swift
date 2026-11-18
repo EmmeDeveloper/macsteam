@@ -112,13 +112,25 @@ final class ConfigViewController: NSViewController {
 
         let generalHeader = settingsGroupLabel("General")
 
-        let stack = NSStackView(views: [generalHeader, togglesCard])
+        let copyBtn = NSButton(title: "Copy Diagnostics", target: self,
+                               action: #selector(copyDiagnostics))
+        copyBtn.bezelStyle = .rounded
+        let diagCard = SettingsCard(rows: [
+            SettingRow(title: "Copy diagnostics for a bug report",
+                       subtitle: "Versions, status and recent Steam log lines. No keys.",
+                       control: copyBtn),
+        ])
+        let diagHeader = settingsGroupLabel("Support")
+
+        let stack = NSStackView(views: [generalHeader, togglesCard, diagHeader, diagCard])
         stack.orientation = .vertical
         stack.alignment = .leading
         stack.spacing = 6
         stack.setCustomSpacing(6, after: generalHeader)
         stack.translatesAutoresizingMaskIntoConstraints = false
         togglesCard.widthAnchor.constraint(equalTo: stack.widthAnchor).isActive = true
+        diagCard.widthAnchor.constraint(equalTo: stack.widthAnchor).isActive = true
+        stack.setCustomSpacing(20, after: togglesCard)
 
         let root = NSView()
         root.translatesAutoresizingMaskIntoConstraints = false
@@ -140,6 +152,12 @@ final class ConfigViewController: NSViewController {
 
     @objc private func settingsChanged() {
         persisting { try store.setHideWhatsNew(hideWhatsNewSwitch.state == .on) }
+    }
+
+    @objc private func copyDiagnostics() {
+        NSPasteboard.general.clearContents()
+        NSPasteboard.general.setString(Diagnostics.report(), forType: .string)
+        presentAlert("Diagnostics copied", "Paste it into your GitHub issue.")
     }
 
     // MARK: Apps detail (Steam game cards)
