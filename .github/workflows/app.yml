@@ -16,9 +16,14 @@ jobs:
       - name: Build dylib
         run: make -j$(sysctl -n hw.ncpu)
 
-      - name: Test config app
-        working-directory: macsteam-app
-        run: swift test
+      - name: Test C probes and config app
+        run: make test
+
+      - name: Test localization
+        run: bash scripts/test_localization.sh
+
+      - name: Test Steam UI compatibility
+        run: make test-ui
 
       - name: Build config app
         working-directory: macsteam-app

@@ -200,3 +200,6 @@
 "the title" = "the title";
 "these titles" = "these titles";
 "timed out waiting for port %1$@" = "timed out waiting for port %1$@";
+
+"Hide Steam Cloud errors" = "Hide Steam Cloud errors";
+"Hide error indicators and notifications; skip launch warnings. Cloud sync stays on. Restart Steam to apply." = "Hide error indicators and notifications; skip launch warnings. Cloud sync stays on. Restart Steam to apply.";

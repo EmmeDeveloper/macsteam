@@ -9,6 +9,7 @@ final class ConfigViewController: NSViewController {
     private var currentSection: Section = .settings
 
     var hideWhatsNewSwitch: NSSwitch!
+    private var hideCloudErrorsSwitch: NSSwitch!
 
     private var appsCardList: AppCardListView?
 
@@ -104,10 +105,19 @@ final class ConfigViewController: NSViewController {
         hideWhatsNewSwitch.action = #selector(settingsChanged)
         hideWhatsNewSwitch.setAccessibilityLabel(L10n.text("Hide What's New shelf"))
 
+        hideCloudErrorsSwitch = NSSwitch()
+        hideCloudErrorsSwitch.state = store.config.hideCloudErrors ? .on : .off
+        hideCloudErrorsSwitch.target = self
+        hideCloudErrorsSwitch.action = #selector(cloudErrorsChanged)
+        hideCloudErrorsSwitch.setAccessibilityLabel(L10n.text("Hide Steam Cloud errors"))
+
         let togglesCard = SettingsCard(rows: [
             SettingRow(title: L10n.text("Hide What's New shelf"),
                        subtitle: nil,
                        control: hideWhatsNewSwitch),
+            SettingRow(title: L10n.text("Hide Steam Cloud errors"),
+                       subtitle: L10n.text("Hide error indicators and notifications; skip launch warnings. Cloud sync stays on. Restart Steam to apply."),
+                       control: hideCloudErrorsSwitch),
         ])
 
         let generalHeader = settingsGroupLabel(L10n.text("General"))
@@ -152,6 +162,10 @@ final class ConfigViewController: NSViewController {
 
     @objc private func settingsChanged() {
         persisting { try store.setHideWhatsNew(hideWhatsNewSwitch.state == .on) }
+    }
+
+    @objc private func cloudErrorsChanged() {
+        persisting { try store.setHideCloudErrors(hideCloudErrorsSwitch.state == .on) }
     }
 
     @objc private func copyDiagnostics() {
