@@ -16,6 +16,10 @@ jobs:
       - name: Build dylib
         run: make -j$(sysctl -n hw.ncpu)
 
+      - name: Test config app
+        working-directory: macsteam-app
+        run: swift test
+
       - name: Build config app
         working-directory: macsteam-app
         run: ./make_app.sh
