@@ -1,7 +1,6 @@
 // Mac-friendly editor for config.yaml.
 
 import AppKit
-import Combine
 
 final class ConfigViewController: NSViewController {
     let store: ConfigStore
@@ -10,9 +9,6 @@ final class ConfigViewController: NSViewController {
     private var currentSection: Section = .settings
 
     var hideWhatsNewSwitch: NSSwitch!
-    private var checkUpdateButton: NSButton?
-    private var autoUpdateSwitch: NSSwitch?
-    private var updaterSub: AnyCancellable?
 
     private var appsCardList: AppCardListView?
 
@@ -116,48 +112,13 @@ final class ConfigViewController: NSViewController {
 
         let generalHeader = settingsGroupLabel("General")
 
-        // Updates section
-        let updater = UpdaterManager.shared
-
-        let btn = NSButton(title: "Check for Updates…", target: self,
-                           action: #selector(checkForUpdatesTapped))
-        btn.bezelStyle = .rounded
-        btn.controlSize = .regular
-        btn.isEnabled = updater.canCheckForUpdates
-        checkUpdateButton = btn
-
-        let autoSwitch = NSSwitch()
-        autoSwitch.state = updater.automaticallyChecksForUpdates ? .on : .off
-        autoSwitch.target = self
-        autoSwitch.action = #selector(autoUpdateChanged)
-        autoSwitch.setAccessibilityLabel("Automatically check for updates")
-        autoUpdateSwitch = autoSwitch
-
-        let updatesCard = SettingsCard(rows: [
-            SettingRow(title: "Automatically check for updates",
-                       subtitle: nil,
-                       control: autoSwitch),
-            SettingRow(title: "Check for Updates",
-                       subtitle: nil,
-                       control: btn),
-        ])
-
-        let updatesHeader = settingsGroupLabel("Updates")
-
-        updaterSub = updater.$canCheckForUpdates
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] can in self?.checkUpdateButton?.isEnabled = can }
-
-        let stack = NSStackView(views: [generalHeader, togglesCard, updatesHeader, updatesCard])
+        let stack = NSStackView(views: [generalHeader, togglesCard])
         stack.orientation = .vertical
         stack.alignment = .leading
         stack.spacing = 6
         stack.setCustomSpacing(6, after: generalHeader)
-        stack.setCustomSpacing(20, after: togglesCard)
-        stack.setCustomSpacing(6, after: updatesHeader)
         stack.translatesAutoresizingMaskIntoConstraints = false
         togglesCard.widthAnchor.constraint(equalTo: stack.widthAnchor).isActive = true
-        updatesCard.widthAnchor.constraint(equalTo: stack.widthAnchor).isActive = true
 
         let root = NSView()
         root.translatesAutoresizingMaskIntoConstraints = false
@@ -179,14 +140,6 @@ final class ConfigViewController: NSViewController {
 
     @objc private func settingsChanged() {
         persisting { try store.setHideWhatsNew(hideWhatsNewSwitch.state == .on) }
-    }
-
-    @objc private func checkForUpdatesTapped() {
-        UpdaterManager.shared.checkForUpdates()
-    }
-
-    @objc private func autoUpdateChanged() {
-        UpdaterManager.shared.automaticallyChecksForUpdates = (autoUpdateSwitch?.state == .on)
     }
 
     // MARK: Apps detail (Steam game cards)

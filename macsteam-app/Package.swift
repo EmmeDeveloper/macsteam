@@ -5,7 +5,6 @@ import PackageDescription
 var targets: [Target] = [
     .executableTarget(
         name: "MacsteamApp",
-        dependencies: ["Sparkle"],
         path: "Sources/MacsteamApp"
     )
 ]
@@ -22,9 +21,6 @@ let package = Package(
     name: "MacsteamApp",
     platforms: [
         .macOS(.v13)
-    ],
-    dependencies: [
-        .package(url: "https://github.com/sparkle-project/Sparkle", from: "2.9.6"),
     ],
     targets: targets
 )
