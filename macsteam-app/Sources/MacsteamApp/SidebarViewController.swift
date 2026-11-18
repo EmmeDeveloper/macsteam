@@ -59,7 +59,29 @@ final class SidebarViewController: NSViewController {
         outline.delegate = self
         scroll.documentView = outline
 
-        view = scroll
+        let info = Bundle.main.infoDictionary
+        let appVersion = info?["CFBundleShortVersionString"] as? String ?? "dev"
+        let footer = NSTextField(wrappingLabelWithString:
+            "macSteam v\(appVersion)\nSteam build \(MacCrab.supportedVersion)")
+        footer.font = .systemFont(ofSize: 11)
+        footer.textColor = .tertiaryLabelColor
+        footer.isSelectable = true
+        footer.translatesAutoresizingMaskIntoConstraints = false
+        scroll.translatesAutoresizingMaskIntoConstraints = false
+
+        let container = NSView()
+        container.addSubview(scroll)
+        container.addSubview(footer)
+        NSLayoutConstraint.activate([
+            scroll.topAnchor.constraint(equalTo: container.topAnchor),
+            scroll.leadingAnchor.constraint(equalTo: container.leadingAnchor),
+            scroll.trailingAnchor.constraint(equalTo: container.trailingAnchor),
+            scroll.bottomAnchor.constraint(equalTo: footer.topAnchor, constant: -6),
+            footer.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 14),
+            footer.trailingAnchor.constraint(lessThanOrEqualTo: container.trailingAnchor, constant: -8),
+            footer.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -10),
+        ])
+        view = container
         outline.reloadData()
     }
 
