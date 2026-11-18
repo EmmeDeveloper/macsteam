@@ -17,6 +17,10 @@ struct ImportPlan {
     var appParents: [Int: Int] = [:]
     var manifestFiles: [URL]        // in temp dir, ready to copy
     var luaTitle: String?
+
+    // A script without depot keys imports fine but Steam can't decrypt the download
+    // (it shows 0 B and logs "Missing decryption key").
+    var hasDepotKeys: Bool { !depotKeys.isEmpty }
 }
 
 enum ImportError: LocalizedError {
