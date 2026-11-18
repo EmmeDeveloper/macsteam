@@ -12,7 +12,7 @@ scratch/
 .scratch/
 signatures_generated.json
 out/
-tests/
+/tests/
 
 xcuserdata/
 *.xcuserstate
