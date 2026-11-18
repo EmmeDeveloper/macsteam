@@ -69,14 +69,23 @@ final class SidebarViewController: NSViewController {
         footer.translatesAutoresizingMaskIntoConstraints = false
         scroll.translatesAutoresizingMaskIntoConstraints = false
 
+        let whatsNew = NSButton(title: "What's new…", target: self, action: #selector(openWhatsNew))
+        whatsNew.isBordered = false
+        whatsNew.font = .systemFont(ofSize: 11)
+        whatsNew.contentTintColor = .linkColor
+        whatsNew.translatesAutoresizingMaskIntoConstraints = false
+
         let container = NSView()
         container.addSubview(scroll)
         container.addSubview(footer)
+        container.addSubview(whatsNew)
         NSLayoutConstraint.activate([
+            whatsNew.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 10),
+            whatsNew.bottomAnchor.constraint(equalTo: footer.topAnchor, constant: -2),
             scroll.topAnchor.constraint(equalTo: container.topAnchor),
             scroll.leadingAnchor.constraint(equalTo: container.leadingAnchor),
             scroll.trailingAnchor.constraint(equalTo: container.trailingAnchor),
-            scroll.bottomAnchor.constraint(equalTo: footer.topAnchor, constant: -6),
+            scroll.bottomAnchor.constraint(equalTo: whatsNew.topAnchor, constant: -4),
             footer.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 14),
             footer.trailingAnchor.constraint(lessThanOrEqualTo: container.trailingAnchor, constant: -8),
             footer.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -10),
@@ -102,6 +111,8 @@ final class SidebarViewController: NSViewController {
         NotificationCenter.default.removeObserver(self, name: NSWindow.didBecomeKeyNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: NSWindow.didResignKeyNotification, object: nil)
     }
+
+    @objc private func openWhatsNew() { NSWorkspace.shared.open(Paths.releasesURL) }
 
     @objc private func windowActivityChanged() { recolorLeafGlyphs() }
 
