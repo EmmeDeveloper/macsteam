@@ -4,6 +4,12 @@ All notable changes to this fork. Releases: https://github.com/EmmeDeveloper/mac
 
 ## Unreleased
 
+- HTTPS manifest request-code provider with strict HTTP and uint64 response validation (#9; upstream PR #3 by ElfariaKensington).
+- Managed launches refresh the cached source ownership ticket, preserving native responses and restoring IPC packets (#10; upstream PR #6 by ElfariaKensington).
+- Optional, reversible Steam Cloud error UI toggle, default off; English and Simplified Chinese labels (#11; upstream PR #2 by ElfariaKensington).
+- Hide shared-library owner and retirement-notice rows at startup; preserve Cloud recovery across launches (#12; upstream PR #5 by ElfariaKensington).
+- Regression checks for manifest responses, ticket routing, UI patch compatibility, and settings persistence.
+
 - Simplified Chinese localization (upstream PR #7 by KameraZhao).
 - Warning when an imported .lua has no depot keys.
 - Settings: Copy Diagnostics for bug reports.

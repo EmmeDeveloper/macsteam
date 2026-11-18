@@ -200,3 +200,6 @@
 "the title" = "该游戏";
 "these titles" = "这些游戏";
 "timed out waiting for port %1$@" = "等待端口 %1$@ 超时";
+
+"Hide Steam Cloud errors" = "隐藏 Steam 云错误";
+"Hide error indicators and notifications; skip launch warnings. Cloud sync stays on. Restart Steam to apply." = "隐藏错误指示和通知，并跳过启动警告。云同步保持开启。重启 Steam 后生效。";

@@ -12,7 +12,7 @@ This is a minimal unlock client, at the moment. It supports game ownership spoof
 
 Other than that one thing, this is an original work. It is _not_ a port of OpenSteamTool or SLSSteam to macOS. 
 
-Manifests for injected games are fetched from the OpenSteamTool endpoint, as needed. I didn't want to build my own manifest delivery endpoint, theirs has been reliable [EDIT: this aged well!] so it is used. Open source stuff and all that.
+Manifest request codes are fetched from ManifestDeX over HTTPS as needed. This endpoint supplies request codes, not depot decryption keys. Invalid responses fall back to Steam’s original request-code handling.
 
 ## How?
 
@@ -38,6 +38,27 @@ preferred or per-app language. See [Localization](docs/LOCALIZATION.md) for
 translation, packaging, and validation details.
 
 The companion app can handle all the basics. It can deploy the macSteam dylib, it can import games, you can use it to remove games from your unlock list, you can toggle the features that support being toggled (with more to come). You can also edit the config by hand by going to ```~/Library/Application Support/macSteam``` and editing the config file.
+
+## Steam UI options
+
+**Hide Steam Cloud errors** in macSteam Settings defaults to off. When enabled,
+it hides Cloud error indicators and notifications and continues past launch
+warnings using Steam’s “play anyway” action. It does not disable Cloud syncing
+or choose between local and remote saves. Restart Steam after changing the setting.
+Turning it off restores the Cloud UI from a recovery copy matched to the patched
+bundle’s SHA-256, so an older backup cannot overwrite a Steam update.
+The config key is `HideCloudErrors: yes` (or `no`). Unknown bundle structures
+are left unchanged and logged.
+
+At startup macSteam also hides the “From the library of…” owner row and the
+legacy library-sharing retirement notice. This UI patch is automatic and does
+not change sharing permissions. Both UI patches preserve the JavaScript file’s
+byte length and reapply to recognized bundles after an update. The sharing patch
+runs before the Cloud patch so recovery copies remain valid across launches.
+
+Managed game launches refresh the same source ownership ticket used by the
+extended ticket getter, using Steam’s native cache and expiry handling. Malformed
+or read-only IPC packets retain the original path.
 
 ## Usage
 

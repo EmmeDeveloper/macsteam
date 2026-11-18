@@ -263,6 +263,9 @@ static void sx_init(void) {
     }
 
     remove_crash_sentinel();
+    // Sharing must run first: Cloud recovery copies are keyed by patched bytes.
+    sx_librarysharing_patch_installed_js();
+    sx_clouderrors_patch_installed_js();
     sx_whatsnew_patch_installed_css();
 
     SX_LOG("macsteam loaded into %s (pid %d)", getprogname(), getpid());

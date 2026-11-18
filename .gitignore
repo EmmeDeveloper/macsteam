@@ -18,3 +18,6 @@ xcuserdata/
 *.xcuserstate
 DerivedData/
 release/
+
+__pycache__/
+*.pyc

@@ -35,3 +35,24 @@ the app, packages `macSteam-<version>.dmg` and creates the GitHub release.
 - Include a test when you touch parsing logic (`macsteam-app/Tests`).
 - Keep the GPL license and copyright headers; credit upstream where code comes from it.
 - Never commit depot keys or personal paths.
+
+## Manifest and Steam UI regression checks
+
+```bash
+make test                     # offline C probes and Swift unit tests
+make test-manifest-live        # three real HTTPS provider requests
+make test-ui STEAM_BUNDLE=/absolute/path/to/pristine/sp.js
+bash scripts/test_localization.sh
+```
+
+UI checks work on temporary copies and leave the installed Steam client alone.
+Without `STEAM_BUNDLE`, `make test-ui` downloads Valve’s current bundle to a local
+cache. It checks syntax, unchanged byte length, Cloud toggle restoration, unknown
+bundle fallback, and repeated launches with both UI patches together.
+The live provider check confirms request-code delivery; a complete download still
+requires a manual Steam test with the needed depot keys and authorization.
+
+These features adapt upstream PRs [#3](https://github.com/crghofficial/macsteam/pull/3),
+[#6](https://github.com/crghofficial/macsteam/pull/6),
+[#2](https://github.com/crghofficial/macsteam/pull/2), and
+[#5](https://github.com/crghofficial/macsteam/pull/5) by ElfariaKensington.
