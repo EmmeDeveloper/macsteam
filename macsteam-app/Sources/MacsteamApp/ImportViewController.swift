@@ -348,8 +348,17 @@ final class ImportViewController: NSViewController {
         let skipped = items.count - importable
         var status = importable == 1 ? "1 game ready to import" : "\(importable) games ready to import"
         if skipped > 0 { status += "  ·  \(skipped) skipped (no app id)" }
-        setStatus(status, tint: .labelColor)
+        let keyless = plans.filter { $0.isImportable && !$0.hasDepotKeys }
+        if !keyless.isEmpty { status += "  ·  \(keyless.count) without depot keys" }
+        setStatus(status, tint: keyless.isEmpty ? .labelColor : .systemOrange)
         announce(status)
+
+        if !keyless.isEmpty {
+            let names = keyless.map { $0.luaTitle ?? "App \($0.mainAppID ?? 0)" }.joined(separator: ", ")
+            presentAlert("No depot keys in this script",
+                         "\(names)\n\nThis script has no decryption keys, so Steam will show 0 B and the download can't start (log: “Missing decryption key”). Import a script that includes the depot key (addappid(<depot>, 1, \"<key>\")).",
+                         style: .warning)
+        }
 
         if !failures.isEmpty {
             presentAlert("Couldn’t read some files",
