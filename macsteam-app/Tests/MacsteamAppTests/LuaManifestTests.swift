@@ -56,4 +56,10 @@ final class LuaManifestTests: XCTestCase {
         XCTAssertEqual(MacCrab.parseVersion("{\n  \"version\" \"1794536281\"\n}"), "1794536281")
         XCTAssertNil(MacCrab.parseVersion("nothing here"))
     }
+
+    func testDiagnosticsRedactsHomeAndHasNoKeys() {
+        let r = Diagnostics.report()
+        XCTAssertFalse(r.contains(NSHomeDirectory()))
+        XCTAssertTrue(r.contains("Supported Steam build: \(MacCrab.supportedVersion)"))
+    }
 }
