@@ -4,7 +4,8 @@ import PackageDescription
 let targets: [Target] = [
     .executableTarget(
         name: "MacsteamApp",
-        path: "Sources/MacsteamApp"
+        path: "Sources/MacsteamApp",
+        resources: [.process("Resources")]
     ),
     .testTarget(
         name: "MacsteamAppTests",
@@ -15,6 +16,7 @@ let targets: [Target] = [
 
 let package = Package(
     name: "MacsteamApp",
+    defaultLocalization: "en",
     platforms: [
         .macOS(.v13)
     ],
