@@ -2,6 +2,8 @@
 
 "Steam unlock client" for macOS. ARM macOS, specifically. **This does not support Intel Macs!**
 
+> **Fork notice.** This repository is a fork of [crghofficial/macsteam](https://github.com/crghofficial/macsteam) (copyright Selectively11), whose last release was v0.8.2. This fork is **actively maintained from now on**: it tracks new supported Steam builds, merges useful community PRs, and publishes its own releases. Credit for the original work goes to the upstream author. Work is tracked in [Issues](https://github.com/EmmeDeveloper/macsteam/issues). Auto-update (Sparkle) has been removed: get new versions from the [Releases page](https://github.com/EmmeDeveloper/macsteam/releases).
+
 ## Huh?
 
 If you don't know what a Steam Unlock Client is, think 'SteamTools/OpenSteamTool/HubcapTools'. SLSSteam if you have good taste. If you don't know what those are, this isn't for you.
@@ -19,13 +21,23 @@ Manifests for injected games are fetched from the OpenSteamTool endpoint, as nee
 
 Pretty boring. 
 
+What the config app changes on your machine:
+
+- It copies `macsteam.dylib` into the Steam app bundle and sets `DYLD_INSERT_LIBRARIES` in its `Info.plist`.
+- It writes `steam.cfg` (`BootStrapperInhibitUpdateOnLaunch=enable`) so Steam does not update itself to a build macSteam doesn't support.
+- It writes its config and imported depot data under `~/Library/Application Support/macSteam` and `<Steam>/depotcache`.
+
+The Repair pane in the config app handles re-deploying/fixing the install.
+
+An imported `.lua` must contain the depot decryption keys (`addappid(<depot>, 1, "<key>")`); a script with only `addappid(<appid>)` will import but Steam will show 0 B and log `Missing decryption key`.
+
 ## macSteam Config
 
 The companion app can handle all the basics. It can deploy the macSteam dylib, it can import games, you can use it to remove games from your unlock list, you can toggle the features that support being toggled (with more to come). You can also edit the config by hand by going to ```~/Library/Application Support/macSteam``` and editing the config file.
 
 ## Usage
 
-Download the latest release from the [Releases page](https://github.com/crghofficial/macsteam/releases).
+Download the latest release from the [Releases page](https://github.com/EmmeDeveloper/macsteam/releases).
 
 Unzip it. Move macSteam Config to Applications. 
 
@@ -50,7 +62,7 @@ There is also a science experiment in the repo, a macSteam launcher that does no
 
 ## Contributing
 
-PRs are welcome. I could currently badly use a **real name** and an **icon**.
+PRs are welcome. Check the [open issues](https://github.com/EmmeDeveloper/macsteam/issues) first.
 
 ## License
 
