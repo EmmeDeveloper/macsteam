@@ -2,7 +2,7 @@
 
 "Steam unlock client" for macOS. ARM macOS, specifically. **This does not support Intel Macs!**
 
-> **Fork notice.** This repository is a fork of [crghofficial/macsteam](https://github.com/crghofficial/macsteam) (copyright Selectively11), whose last release was v0.8.2. This fork is **actively maintained from now on**: it tracks new supported Steam builds, merges useful community PRs, and publishes its own releases. Credit for the original work goes to the upstream author. Work is tracked in [Issues](https://github.com/EmmeDeveloper/macsteam/issues). Auto-update (Sparkle) has been removed: get new versions from the [Releases page](https://github.com/EmmeDeveloper/macsteam/releases).
+> **This is my own work-in-progress project, started as a fork of [crghofficial/macsteam](https://github.com/crghofficial/macsteam)** (copyright Selectively11), whose last release was v0.8.2. I'm developing it on my own from there: it tracks new supported Steam builds, merges useful community PRs, and publishes its own releases. Credit for the original work goes to the upstream author. Work is tracked in [Issues](https://github.com/EmmeDeveloper/macsteam/issues). Auto-update (Sparkle) has been removed: get new versions from the [Releases page](https://github.com/EmmeDeveloper/macsteam/releases).
 
 ## Huh?
 
