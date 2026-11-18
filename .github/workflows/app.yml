@@ -1,7 +1,8 @@
 name: Build
 on:
+  workflow_dispatch:
   push:
-    branches: [main, feat/zh-Hans-localization]
+    branches: [main]
   pull_request:
     branches: [main]
 
@@ -9,7 +10,7 @@ jobs:
   build:
     runs-on: macos-15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           submodules: recursive
 
@@ -35,11 +36,11 @@ jobs:
             -volname "macSteam Config" \
             -srcfolder "macsteam-app/macSteam Config.app" \
             -ov -format UDZO \
-            "macSteam-zh-Hans.dmg"
+            "macSteam.dmg"
 
       - name: Upload DMG
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
-          name: macSteam-zh-Hans-DMG
-          path: macSteam-zh-Hans.dmg
+          name: macSteam-DMG
+          path: macSteam.dmg
           if-no-files-found: error

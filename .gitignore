@@ -12,7 +12,6 @@ scratch/
 .scratch/
 signatures_generated.json
 out/
-/tests/
 
 xcuserdata/
 *.xcuserstate

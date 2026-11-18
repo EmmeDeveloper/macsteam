@@ -16,12 +16,15 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           submodules: recursive
 
       - name: Build dylib
         run: make -j$(sysctl -n hw.ncpu)
+
+      - name: Test C probes
+        run: make test-c
 
       - name: Build config app
         working-directory: macsteam-app
