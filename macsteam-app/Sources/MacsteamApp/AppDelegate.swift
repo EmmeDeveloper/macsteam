@@ -4,7 +4,6 @@ import AppKit
 final class AppDelegate: NSObject, NSApplicationDelegate {
     private let appName = "macSteam Config"
     let store = ConfigStore()
-    private let updaterManager = UpdaterManager.shared
     var window: NSWindow!
     var mainVC: MainViewController!
 
@@ -12,7 +11,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         if enforceSingleInstance() { return }
 
         store.load()
-        updaterManager.start()
 
         buildMenu()
 
@@ -50,8 +48,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool { true }
 
-    @objc private func checkForUpdatesMenu() {
-        updaterManager.checkForUpdates()
+    @objc private func openReleasesMenu() {
+        NSWorkspace.shared.open(Paths.releasesURL)
     }
 
     private func enforceSingleInstance() -> Bool {
@@ -76,7 +74,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                         keyEquivalent: "")
         appMenu.addItem(.separator())
         appMenu.addItem(withTitle: "Check for Updates…",
-                        action: #selector(checkForUpdatesMenu),
+                        action: #selector(openReleasesMenu),
                         keyEquivalent: "")
         appMenu.addItem(.separator())
         let servicesMenu = NSMenu()

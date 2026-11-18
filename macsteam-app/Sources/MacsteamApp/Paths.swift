@@ -3,6 +3,8 @@
 import Foundation
 
 enum Paths {
+    static let releasesURL = URL(string: "https://github.com/EmmeDeveloper/macsteam/releases")!
+
     static var configDir: URL {
         let home = FileManager.default.homeDirectoryForCurrentUser
         return home.appendingPathComponent("Library/Application Support/macsteam", isDirectory: true)

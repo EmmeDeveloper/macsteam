@@ -59,18 +59,9 @@ cat > "$APP/Contents/Info.plist" <<PLIST
     <key>NSHumanReadableCopyright</key> <string>© 2026 Selectively11</string>
     <key>NSHighResolutionCapable</key> <true/>
     <key>NSPrincipalClass</key>        <string>NSApplication</string>
-    <key>SUFeedURL</key>               <string>https://raw.githubusercontent.com/crghofficial/macsteam/main/appcast.xml</string>
-    <key>SUPublicEDKey</key>           <string>rDOXzJ+vt12aWeu9hATgvz6q46MlRcgR4gbTfj5YuWQ=</string>
 </dict>
 </plist>
 PLIST
-
-SPARKLE_FW=".build/artifacts/sparkle/Sparkle/Sparkle.xcframework/macos-arm64_x86_64/Sparkle.framework"
-if [ -d "$SPARKLE_FW" ]; then
-    cp -R "$SPARKLE_FW" "$APP/Contents/Frameworks/Sparkle.framework"
-else
-    echo "warning: Sparkle.framework not found -- auto-update disabled at runtime" >&2
-fi
 
 echo "APPL????" > "$APP/Contents/PkgInfo"
 
